@@ -6,22 +6,42 @@
     <title>@ViewBag.Title - T-SQL Tips & Tricks</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    @*docstyle.css in styles folder*@
+    <link href="~/Styles/DocStyle.css"
+          rel="stylesheet" />
+
+    @*highlight.js + tsql custom library insert*@
+
+    <script type="text/javascript" src="~/Content/Highlight/highlight.min.js"></script>
+    <script type="text/javascript"
+            src="~/Content/Highlight/HL_tsql/dist/tsql.min.js"></script>
+    <link rel="stylesheet" href="~/Content/Highlight/HL_tsql/dist/ssms.min.css" />
+    <script type="text/javascript">
+        hljs.highlightAll();
+    </script>
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("T-SQL Best Practices", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("T-SQL Guidelines", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Content/Images/sql_server_icon.png" class="img-center" height="50" width="50" background-color="black" />
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @*navbar links to home, read, secure, perform and about*@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Documentation", "Read", "Home")</li>
+                    <li>@Html.ActionLink("Readability", "Read", "Home")</li>
+                    <li>@Html.ActionLink("Security", "Secure", "Home")</li>
+                    <li>@Html.ActionLink("Performance", "Perform", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
 
                 </ul>

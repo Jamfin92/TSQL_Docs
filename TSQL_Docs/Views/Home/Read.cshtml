@@ -11,46 +11,83 @@
     <title>Readability</title>
 </head>
 <body>
-    <h1><b>Readability</b></h1>
-    <h2><i>New Features in SQL Server 2016 SP2</i></h2>
+    <div class="grid">
+        <h1><b>Readability</b></h1>
+        <h2><i>New Features in SQL Server 2016 SP2</i></h2>
         <h3><b>Creating/Altering Procedures</b></h3>
-            <p>Prior to SQL Server 2016, the syntax looked like this to alter an already cached procedure:</p>
-            <br/>
-            <p>After SQL Server 2016, the syntax looks like this*:</p>
-            <br />
-            <p>This change in syntax results in cleaner, more reusable code.</p>
+        <p>Prior to SQL Server 2016, the syntax looked like this to alter an already cached procedure:</p>
+        <pre><code class="language-tsql">IF OBJECT_ID('Sales.GenerateSalesReport', 'P') IS NULL
+    EXECUTE('CREATE PROCEDURE Sales.GenerateSalesReport AS SELECT 1;');
+GO
+    ALTER PROCEDURE Sales.GenerateSalesReport
+-- Code goes here
+AS;
+GO</code></pre>
+        <br />
+        <p>After SQL Server 2016, the syntax looks like this*:</p>
+        <pre><code class="language-tsql">CREATE OR ALTER PROCEDURE Sales.GenerateSalesReport
+AS
+BEGIN
+SELECT 1;
+--Code goes here
+END;
+GO</code></pre>
+        <br />
+        <p>This change in syntax results in cleaner, more reusable code.</p>
         <h3><b>Updated Syntax</b></h3>
-            <h4>Joins</h4>
-                <p>For more information on updated and deprecated syntax, visit: <a href="https://docs.microsoft.com/en-us/sql/database-engine/deprecated-database-engine-features-in-sql-server-2016?view=sql-server-ver15"> Deprecated Database Engine Features in SQL Server 2016.</a></p> 
-                <p>Like C#, T-SQL is an evolving language, which means some features may be changed or deprecated over time.</p>
-                <p>One often cited example is the use of joins in pre-ANSI SQL-92 standards, where the JOIN condition was defined in the WHERE clause, as shown:</p>
-                <br /> 
-                <p>SQL Server still supports this approach, but the general consensus is that the newer model promotes code readability by using the JOIN condition in the FROM clause, like so:</p>
-                <br />
-            <h4>Top</h4>
-                <p>The TOP expression is another example of outdated code:</p>
-                <br />
-                <p>While this will still work in SQL Server, the correct syntax includes parentheses: </p>
-                <br />
-                <p>Either approach can be used, but Microsoft may deprecate the functionality of the old syntax at any time. For instance, SET ROWCOUNT was deprecated in favor of INSERT, UPDATE and DELETE statements.</p>
-            <h4>Null</h4>
-                <p>Do not use a comparison operator (not equal) against a NULL value in this example:</p>
-                <br />
-                <p>This statement returns no rows and does not return an error. If not careful enough with syntax, there could be incorrect results without realizing there is an issue.</p>
-                <p>Use IS NULL or IS NOT NULL instead, like so:</p>
-                <br />
-                
-                
-    <h2><i>Best Practices for Clean T-SQL Code</i></h2>
+        <h4>Joins</h4>
+        <p>For more information on updated and deprecated syntax, visit: <a href="https://docs.microsoft.com/en-us/sql/database-engine/deprecated-database-engine-features-in-sql-server-2016?view=sql-server-ver15"> Deprecated Database Engine Features in SQL Server 2016.</a></p>
+        <p>Like C#, T-SQL is an evolving language, which means some features may be changed or deprecated over time.</p>
+        <p>One often cited example is the use of joins in pre-ANSI SQL-92 standards, where the JOIN condition was defined in the WHERE clause, as shown:</p>
+        <br />
+        <p>SQL Server still supports this approach, but the general consensus is that the newer model promotes code readability by using the JOIN condition in the FROM clause, like so:</p>
+        <br />
+        <h4>Top</h4>
+        <p>The TOP expression is another example of outdated code:</p>
+        <br />
+        <p>While this will still work in SQL Server, the correct syntax includes parentheses: </p>
+        <br />
+        <p>Either approach can be used, but Microsoft may deprecate the functionality of the old syntax at any time. For instance, SET ROWCOUNT was deprecated in favor of INSERT, UPDATE and DELETE statements.</p>
+        <h4>Null</h4>
+        <p>Do not use a comparison operator (not equal) against a NULL value in this example:</p>
+        <br />
+        <p>This statement returns no rows and does not return an error. If not careful enough with syntax, there could be incorrect results without realizing there is an issue.</p>
+        <p>Use IS NULL or IS NOT NULL instead, like so:</p>
+        <br />
+
+
+        <h2><i>Best Practices for Clean T-SQL Code</i></h2>
         <h3><b>Formatting</b></h3>
-            <p>At some point, most code will need to be revisited. The less consideration that goes into formatting, the more time will need to be spent to interpret the code.</p>
-            <h4>Casing, Line Breaks, Indentation</h4>
-                <p>For example, take this instance of USE and SELECT statements written in all lowercase with no line breaks or spaces except where necessary:</p>
-                <br />
-                <p>Or another example where the entire statement is capitalized:</p>
-                <br />
-                <p>These statements will compile and run without error. If these formatting preferences are maintained in a script with hundreds of line of code, the code would be unreadable. Look at what happens when the statements are broken up into multiple lines with indentation:</p>
-            <h4>Comments</h4>
-                <p></p>
+        <p>At some point, most code will need to be revisited. The less consideration that goes into formatting, the more time will need to be spent to interpret the code.</p>
+        <h4>Casing, Line Breaks, Indentation</h4>
+        <p>For example, take this instance of USE and SELECT statements written in all lowercase with no line breaks or spaces except where necessary:</p>
+        <pre><code class="language-tsql">use adventureworks2014
+go
+select emp.businessentityid empid,psn.firstname,psn.lastname,emp.sickleavehours sickleave,emp.nationalidnumber natid,emp.JobTitle from humanresources.employee emp inner join person.person psn on emp.businessentityid=psn.businessentityid where emp.jobtitle='production technician - wc60' or emp.jobtitle='production technician - wc50' order by emp.JobTitle desc,EmpID asc</code></pre>
+        <br />
+        <p>Or another example where the entire statement is capitalized:</p>
+        <pre><code class="language-tsql">USE ADVENTUREWORKS2014
+GO
+SELECT EMP.BUSINESSENTITYID EMPID,PSN.FIRSTNAME,PSN.LASTNAME,EMP.SICKLEAVEHOURS SICKLEAVE,EMP.NATIONALIDNUMBER NATID,EMP.JOBTITLE FROM HUMANRESOURCES.EMPLOYEE EMP INNER JOIN PERSON.PERSON PSN ON EMP.BUSINESSENTITYID=PSN.BUSINESSENTITYID WHERE EMP.JOBTITLE='PRODUCTION TECHNICIAN - WC60' OR EMP.JOBTITLE='PRODUCTION TECHNICIAN - WC50' ORDER BY EMP.JOBTITLE DESC,EMPID ASC</code></pre>
+        <br />
+        <p>These statements will compile and run without error. If these formatting preferences are maintained in a script with hundreds of line of code, the code would be unreadable. Look at what happens when the statements are broken up into multiple lines with indentation:</p>
+        <pre><code class="language-tsql">USE AdventureWorks2014;
+GO
+SELECT emp.BusinessEntityID AS EmpID,
+    psn.FirstName,
+    psn.LastName,
+    emp.SickLeaveHours AS SickLeave,
+    emp.NationalIDNumber AS NatID,
+    emp.JobTitle
+FROM HumanResources.Employee AS emp
+    INNER JOIN Person.Person AS psn
+    ON emp.BusinessEntityID = psn.BusinessEntityID
+WHERE (emp.JobTitle = 'Production Technician - WC60')
+    OR (emp.JobTitle = 'Production Technician - WC50')
+ORDER BY emp.JobTitle DESC, EmpID ASC;
+</code></pre>
+        <h4>Comments</h4>
+        <p></p>
+    </div>
 </body>
 </html>
