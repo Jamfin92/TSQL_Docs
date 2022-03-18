@@ -20,7 +20,17 @@ namespace TSQL_Docs.Controllers
             return View();
         }
 
+        public ActionResult Document()
+        {
+            return View();
+        }
+
         public ActionResult Read()
+        {
+            return View();
+        }
+
+        public ActionResult Secure()
         {
             return View();
         }
